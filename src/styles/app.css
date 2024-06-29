@@ -4,7 +4,9 @@
   font-family: 'Roboto', sans-serif;
 }
 
-*:focus {
+input:focus,
+textarea:focus,
+select:focus {
   outline: none !important;
   box-shadow: none !important;
   border: 1px solid #000000 !important;
@@ -223,4 +225,26 @@ nav > a:hover {
   padding: 0.7rem 0rem;
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.custom-modal .modal-content {
+  border-radius: 0;
+}
+
+.custom-modal .modal-footer button {
+  width: 7rem;
+  padding: 0.5rem 0;
+  border: 0;
+  color: #ebebeb;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.custom-modal .modal-footer button:first-child {
+  background-color: #292929;
+}
+
+.custom-modal .modal-footer button:last-child {
+  background-color: #fb7e14;
 }

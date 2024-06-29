@@ -1,8 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ARRAY_TRANSACTIONS } from '../../constants';
+import {
+  ARRAY_TRANSACTIONS,
+  KEY_LOCALSTORAGE_TRANSACTION,
+} from '../../constants';
 
 const initialState = (() => {
-  const persistedState = localStorage.getItem('transacciones');
+  const persistedState = localStorage.getItem(KEY_LOCALSTORAGE_TRANSACTION);
 
   if (persistedState) {
     return JSON.parse(persistedState).transactions;

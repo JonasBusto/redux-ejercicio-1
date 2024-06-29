@@ -1,48 +1,17 @@
 import { TRANSACTIONS_CATEGORY, TRANSACTIONS_MODALITY } from '../constants';
 import { useAppSelector } from '../hooks/store';
-import { useEffect, useState } from 'react';
+import { useFilter } from '../hooks/useFilter';
+import { TransactionItem } from '../components/items/TransactionItem';
 
 export function Home() {
   const transactions = useAppSelector((state) => state.transactions);
-  const [filterSearch, setFilterSearch] = useState('');
-  const [filterCategory, setFilterCategory] = useState('');
-  const [filterModality, setFilterModality] = useState('');
-  const [transactionFilter, setTransactionFilter] = useState([...transactions]);
-
-  const filterItems = () => {
-    const arrayAux = [...transactions];
-    let arrayFilter = arrayAux;
-
-    if (filterSearch === '') {
-      arrayFilter = arrayAux;
-    } else {
-      arrayFilter = arrayAux.filter(
-        (item) =>
-          item.descripcion.toLowerCase().includes(filterSearch) ||
-          item.monto.toLowerCase().includes(filterSearch) ||
-          item.categoria.toLowerCase().includes(filterSearch) ||
-          item.modalidad.toLowerCase().includes(filterSearch)
-      );
-    }
-
-    if (filterCategory !== '') {
-      arrayFilter = arrayFilter.filter(
-        (item) => item.categoria === filterCategory
-      );
-    }
-
-    if (filterModality !== '') {
-      arrayFilter = arrayFilter.filter(
-        (item) => item.modalidad === filterModality
-      );
-    }
-
-    setTransactionFilter(arrayFilter);
-  };
-
-  useEffect(() => {
-    filterItems();
-  }, [filterCategory, filterModality, filterSearch]);
+  const {
+    transactionFilter,
+    filterSearch,
+    handleChangeCategory,
+    handleChangeModality,
+    handleChangeSearch,
+  } = useFilter({ transactions });
 
   return (
     <div className='container mb-5'>
@@ -52,10 +21,7 @@ export function Home() {
           <div className='d-flex'>
             <div className='d-flex flex-column filter-select'>
               <p className='m-0'>Categoria</p>
-              <select
-                className='form-select'
-                onChange={(event) => setFilterCategory(event.target.value)}
-              >
+              <select className='form-select' onChange={handleChangeCategory}>
                 <option value=''>Todos</option>
                 {TRANSACTIONS_CATEGORY.map((item) => (
                   <option key={item.id} value={item.description}>
@@ -66,10 +32,7 @@ export function Home() {
             </div>
             <div className='d-flex flex-column filter-select'>
               <p className='m-0'>Modalidad</p>
-              <select
-                className='form-select'
-                onChange={(event) => setFilterModality(event.target.value)}
-              >
+              <select className='form-select' onChange={handleChangeModality}>
                 <option value=''>Todos</option>
                 {TRANSACTIONS_MODALITY.map((item) => (
                   <option key={item.id} value={item.description}>
@@ -84,9 +47,7 @@ export function Home() {
           <input
             className='form-control'
             value={filterSearch}
-            onChange={(event) =>
-              setFilterSearch(event.target.value.toLowerCase())
-            }
+            onChange={handleChangeSearch}
             type='text'
             placeholder='Buscar Transacción...'
           />
@@ -96,28 +57,11 @@ export function Home() {
       <div className='list-items-home mx-auto'>
         {transactionFilter.length > 0 ? (
           transactionFilter.map((transaction, index) => (
-            <span
+            <TransactionItem
               key={transaction.id}
-              className='d-flex justify-content-center'
-            >
-              <p>{index + 1}</p>
-              <p className='d-flex flex-column'>
-                <span>{transaction.descripcion}</span>
-                <span className='d-flex justify-content-between'>
-                  <span>
-                    <span className='span-category'>
-                      {'Categoria: ' + transaction.categoria}
-                    </span>
-                    <span className='span-modality'>
-                      {'Modalidad: ' + transaction.modalidad}
-                    </span>
-                  </span>
-                  <span className='span-monto'>
-                    {Number(transaction.monto).toFixed(2) + ' $'}
-                  </span>
-                </span>
-              </p>
-            </span>
+              transaction={transaction}
+              index={index}
+            />
           ))
         ) : (
           <span>Sin transacciones</span>

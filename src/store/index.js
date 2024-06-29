@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import transactionsReducer from './transactions/slice';
+import { KEY_LOCALSTORAGE_TRANSACTION } from '../constants';
 
 const persistanceLocalStorageMiddleware = (store) => (next) => (action) => {
   next(action);
-  localStorage.setItem('transacciones', JSON.stringify(store.getState()));
+  localStorage.setItem(
+    KEY_LOCALSTORAGE_TRANSACTION,
+    JSON.stringify(store.getState())
+  );
 };
 
 export const store = configureStore({

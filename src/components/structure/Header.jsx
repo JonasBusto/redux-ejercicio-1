@@ -1,4 +1,4 @@
-import { NavePage } from '../NavPage';
+import { NavePage } from '../items/NavPage';
 
 export function Header() {
   return (

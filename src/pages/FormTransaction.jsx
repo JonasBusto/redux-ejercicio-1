@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom/dist';
 import { Formik } from 'formik';
-import Form from 'react-bootstrap/Form';
 import { useAppSelector } from '../hooks/store';
 import { useTransactionAction } from '../hooks/useTransactionAction';
 import { TRANSACTIONS_CATEGORY, TRANSACTIONS_MODALITY } from '../constants';
+import Form from 'react-bootstrap/Form';
 
 export function FormTransaction() {
   const transactions = useAppSelector((state) => state.transactions);

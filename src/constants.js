@@ -54,3 +54,5 @@ export const ARRAY_TRANSACTIONS = [
     modalidad: TRANSACTIONS_MODALITY[1].description,
   },
 ];
+
+export const KEY_LOCALSTORAGE_TRANSACTION = 'Transacciones';
